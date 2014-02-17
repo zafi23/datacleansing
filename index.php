@@ -2,7 +2,7 @@
 
 
 	include_once 'lib/distancias.php';
-	include_once 'lib/funcAux.php';
+
 
 //Inicializamos las cadenas y las variables secundarias
 
