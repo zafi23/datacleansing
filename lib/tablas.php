@@ -43,18 +43,19 @@ class Diccionario {
 
 	public function __construct($cadena) {
 		$this->c = $cadena;
-		$this->l = strlen($c);
+		$this->l = strlen($this->c);
 		$this->f = 1;
-		$this->arr = explode(" ", $c);
+		$this->arr = explode(" ", $this->c);
 		$this->dit = array_fill(0, 37, 0);
 		$this->lDit = 0;
 
-		for ($i = 0; $this->c[$i] != '\0'; $i++) {
+		
+		for ($i = 0; $i < $this->l; $i++) {
 			if ($this->c[$i] >= '0' && $this->c[$i] <= '9') {
-				$this->dit[$this->c[$i] - '0']++;
+				$this->dit[ord($this->c[$i]) - ord('0')]++;
 				$this->lDit++;
 			} else if ($this->c[$i] >= 'a' && $this->c[$i] <= 'z') {
-				$this->dit[$c[$i] - 'a' + 10]++;
+				$this->dit[ord($this->c[$i]) - ord('a') + 10]++;
 				$this->lDit++;
 			} else if ($this->c[$i] == 'ñ') {
 				$this->dit[36]++;
@@ -64,12 +65,13 @@ class Diccionario {
 
 	}
 
-	public function compare($dic) {
-		return strcmp($this->c, $dic->getC());
+}
+
+function compareDiccionario($dic1,$dic2) {
+		return strcmp($dic1->getC(), $dic2->getC());
 
 	}
 
-}
 
 function cargarDiccionarios($fich,$abreviaturas)
 {
@@ -174,17 +176,17 @@ function cargarAbreviaturas($fich)
 
 function expandirAbreviaturas($cadena,$abreviaturas)
 {
-	$cad  = "";
-	
+	$cad  = $cadena;
+
 	for ($i=0; $i < count($abreviaturas) ; $i++) { 
 		
-		if(strpos($cadena, $abreviaturas[$i]->getAbrev())>=0)
+		if(strpos($cadena, $abreviaturas[$i]->getAbrev())!==false)
 		{
 			$cad = str_replace($abreviaturas[$i]->getAbrev(), $abreviaturas[$i]->getCadena(), $cadena);
+
 		}
 		
 	}
-	
 	
 	return $cad;
 }
@@ -196,10 +198,11 @@ function expandirAbreviaturas($cadena,$abreviaturas)
 function limpiaCad($cad)
 {
 	$cadena = trim($cad);
-	
-	$cadena = strtr($cadena,'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ','aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
-	//$cadena = preg_replace("/[^A-Za-z0-9\s\s+]/","",$cadena);
+	$cadena = utf8_encode(strtr(utf8_decode($cadena), utf8_decode('àáèéìíòóùúÀÁÈÉÌÍÒÓÙÚ'),'aaeeiioouuAAEEIIOOUU'));
+
+	$cadena = preg_replace("/[^A-Za-z0-9\.\s\s+]/","",$cadena);
 	$cadena = strtolower($cadena);
+	
 	
 	return $cadena;
 }

@@ -2,13 +2,13 @@
 
 
 	include_once 'lib/distancias.php';
-
+	include_once 'lib/tablas.php';
 
 //Inicializamos las cadenas y las variables secundarias
 
-	$fichero = "prueba.txt";	
+	/*$fichero = "uax_modificado.txt";	
 	$cadenasOri = leerFich($fichero);
-	$cadenas = array();
+	$cadenas = array();*/
 	$tabla[][] = "";
 
 	$minLev = PHP_INT_MAX;
@@ -36,8 +36,15 @@
 	$medMetaSim = 0;
 	
 	//Preprocesamos las cadenas
-	$cadenas = preprocess($cadenasOri);
+	//$cadenas = preprocess($cadenasOri);
 
+	$abreviaturas = cargarAbreviaturas("ua.siglas");
+
+$cadenas = cargarDiccionarios("uax_modificado.txt",$abreviaturas);
+
+usort($cadenas,"compareDiccionario");
+	
+	
 //Calculamos las funciones para cada cadena
 
 //tomamos tiempos de lo que tarda cada distancia con cada cadena , hacer solo un for para cada cadena y se pasa con todas las distancias
@@ -49,7 +56,7 @@
 			
 			//Calculamos Levinshtein 
 			 $t1 = microtime();
-			 $lev = levenshtein($cadenas[$i], $cadenas[$j]);
+			 $lev = levenshtein($cadenas[$i]->getC(), $cadenas[$j]->getC());
 			 $t2 = microtime();
 			 
 			 $medLev+=abs($t2-$t1);
@@ -58,7 +65,7 @@
 			
 			//Calculamos SimilarText
 			 $t1 = microtime();
-			 $sim = similarTxt($cadenas[$i], $cadenas[$j]);
+			 $sim = similarTxt($cadenas[$i]->getC(), $cadenas[$j]->getC());
 			 $t2 = microtime();
 			 
 			 $medSim+=abs($t2-$t1);
@@ -67,7 +74,7 @@
 			 
 			 //Calculamos Soundex con levinshtein
 			 $t1 = microtime();
-			 $s_lev = soundLev($cadenas[$i], $cadenas[$j]);
+			 $s_lev = soundLev($cadenas[$i]->getC(), $cadenas[$j]->getC());
 			 $t2 = microtime();
 			 
 			 $medSoundLev+=abs($t2-$t1);
@@ -76,7 +83,7 @@
 			 
 			 //Calculamos Soundex con similar
 			 $t1 = microtime();
-			 $s_sim = soundSim($cadenas[$i], $cadenas[$j]);
+			 $s_sim = soundSim($cadenas[$i]->getC(), $cadenas[$j]->getC());
 			 $t2 = microtime();
 			 
 			 $medSoundSim+=abs($t2-$t1);
@@ -85,7 +92,7 @@
 			 
 			 //Calculamos Metaphone con levenshtein
 			 $t1 = microtime();
-			 $meta_lev = metaLev($cadenas[$i], $cadenas[$j]);
+			 $meta_lev = metaLev($cadenas[$i]->getC(), $cadenas[$j]->getC());
 			 $t2 = microtime();
 			 
 			 $medMetaLev+=abs($t2-$t1);
@@ -94,7 +101,7 @@
 			 
 			 //Calculamos Metaphone con similar
 			 $t1 = microtime();
-			 $meta_sim = metaSim($cadenas[$i], $cadenas[$j]);
+			 $meta_sim = metaSim($cadenas[$i]->getC(), $cadenas[$j]->getC());
 			 $t2 = microtime();
 			 
 			 $medMetaSim+=abs($t2-$t1);
@@ -141,8 +148,8 @@
 
 <?php
 	
-	for ($i=0; $i < count($cadenasOri) ; $i++) { 
-		echo "s".($i+1).": ".$cadenasOri[$i]."<br>";
+	for ($i=0; $i < count($cadenas) ; $i++) { 
+		echo "s".($i+1).": ".$cadenas[$i]->getC()."<br>";
 	}
 
 
