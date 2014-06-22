@@ -25,7 +25,7 @@ function sendMail($email,$msg)
 	$mail->IsHTML(true);
 	
 	// dirección remitente, p. ej.: no-responder@miempresa.com
-	$mail->From = "kurisublack@gmail.com";
+	$mail->From = "no.reply.datacleansing@gmail.com";
 	
 	// nombre remitente, p. ej.: "Servicio de envío automático"
 	$mail->FromName = "Nombre_remitente";
@@ -49,8 +49,8 @@ function sendMail($email,$msg)
 	
 	
 	// credenciales usuario
-	$mail->Username = "kurisublack@gmail.com";
-	$mail->Password = "Kawaii07"; 
+	$mail->Username = "no.reply.datacleansing@gmail.com";
+	$mail->Password = "Datacleansing2014"; 
 
 
 	if(!$mail->Send()) {
