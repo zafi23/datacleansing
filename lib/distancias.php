@@ -1,5 +1,10 @@
 <?php
     
+ /*******************************************************************
+ * Funciones de calculo de distancias
+ ******************************************************************/   
+    
+    
 //Funcion que devuelve el procentaje de aprecido entre dos strings 
 function similarTxt($c1,$c2)
 {
@@ -45,7 +50,6 @@ function metaSim($c1,$c2)
  *  v: vector de frecuencias
  *  w: vector de frecuencias
  */
-
  function distanceDIT($v,$w)
  {
  	
@@ -64,6 +68,248 @@ function metaSim($c1,$c2)
   	return ($dit / 2);
 	
  }
+ 
+ /*Funcion que calcula la distancia invariante a la posicion
+   de una palabra en una cadena
+ *  v: vector de palabras de la cadena
+ *  w: vector de palabras de la cadena
+ */
+ function distanceDIP($v,$w)
+ {
+ 	$matriz[][] = "";
+	
+	//Inicializamos el array 
+	$matriz[0][0] = 0;
+	
+	for ($i=1; $i <= count($v) ; $i++) { 
+		$matriz[$i][0] = strlen($v[$i-1]);
+	}
+	for ($i=1; $i <= count($w) ; $i++) { 
+		$matriz[0][$i] = strlen($w[$i-1]);
+	}
+	for ($i=1; $i <= count($v) ; $i++) {
+		for ($j=0; $j <= count($w) ; $j++) { 
+			$matriz[$i][$j] = 0;
+		} 
+	}
+	
+	//Marcamos las palabras que tienen la DL nula (es cero)
+	for ($i=1; $i <= count($v) ; $i++) { 
+		for ($j=1; $j <= count($w) ; $j++) { 
+			
+			if(!$matriz[$i][$j])
+			{
+				$matriz[$i][$j] = levenshtein($v[$i-1], $w[$j-1]);
+				
+				if(!$matriz[$i][$j])
+				{
+					
+					for ($iAux=0; $iAux <= count($v) ; $iAux++) { 
+						$matriz[$iAux][$j] = -1;
+					}
+					for ($jAux=0; $jAux <= count($w) ; $jAux++) { 
+						$matriz[$i][$jAux] = -1;
+					}
+					
+					break;
+				}
+				
+			}
+			
+		}
+	}
+	
+	$costeMejor = -1;
+	
+	emparejamiento($matriz, count($v), count($w), 1, 0, $costeMejor);
+	
+	
+	return $costeMejor;
+ }
+ 
+  /*Funcion que calcula la distancia invariante a la posicion
+   de una palabra en una cadena empleando el coeficiente de jaccard
+ *  v: vector de palabras de la cadena
+ *  w: vector de palabras de la cadena
+ *	jaccard: coeficiente de Jaccard empleado en la funcion 
+ */
+ function distanceDIP2($v,$w,&$jaccard)
+ {
+ 	$matriz[][] = "";
+	
+	//Inicializamos el array 
+	$matriz[0][0] = 0;
+	
+	for ($i=1; $i <= count($v) ; $i++) { 
+		$matriz[$i][0] = strlen($v[$i-1]);
+	}
+	for ($i=1; $i <= count($w) ; $i++) { 
+		$matriz[0][$i] = strlen($w[$i-1]);
+	}
+	for ($i=1; $i <= count($v) ; $i++) {
+		for ($j=0; $j <= count($w) ; $j++) { 
+			$matriz[$i][$j] = 0;
+		} 
+	}
+	
+	//Marcamos las palabras que tienen la DL nula (es cero)
+	for ($i=1; $i <= count($v) ; $i++) { 
+		for ($j=1; $j <= count($w) ; $j++) { 
+			
+			if(!$matriz[$i][$j])
+			{
+				$matriz[$i][$j] = levenshtein($v[$i-1], $w[$j-1]);
+				
+				if(!$matriz[$i][$j])
+				{
+					
+					for ($iAux=0; $iAux <= count($v) ; $iAux++) { 
+						$matriz[$iAux][$j] = -1;
+					}
+					for ($jAux=0; $jAux <= count($w) ; $jAux++) { 
+						$matriz[$i][$jAux] = -1;
+					}
+				}
+				
+			}
+			
+		}
+	}
+	
+	for ($i=1; $i <= count($v) ; $i++) { 
+		for ($j=1; $j <= count($w) ; $j++) { 
+			
+			if($matriz[$i][$j] >0)
+			{
+				if($matriz[$i][$j] <= (1 + ($matriz[$i][0] + $matriz[0][$j]) /20))
+				{
+					for ($iAux=0; $iAux <= count($v) ; $iAux++) { 
+						$matriz[$iAux][$j] = -1;
+					}
+					for ($jAux=0; $jAux <= count($w) ; $jAux++) { 
+						$matriz[$i][$jAux] = -1;
+					}
+					
+					break;
+				}
+			}
+		}
+	}
+	
+	$num = 0;
+	$den = 0;
+	
+	if(count($v) >= count($w))
+	{
+		$den = count($v);
+		for ($i=1; $i <= count($w) ; $i++) { 
+			if($matriz[0][$i] == -1)
+			{
+				$num++;
+			}
+			else
+			{
+				$den++;
+			}
+		}
+	}
+	else 
+	{
+		$den = count($w);
+		for ($i=1; $i <= count($v) ; $i++) { 
+			if($matriz[$i][0] == -1)
+			{
+				$num++;
+			}
+			else
+			{
+				$den++;
+			}
+		}
+	}
+	
+	$jaccard = 1 - (1.0*$num)/$den;
+	
+	$costeMejor = -1;
+	
+	emparejamiento($matriz, count($v), count($w), 1, 0, $costeMejor);
+	
+	return $costeMejor;
+ }
+ 
+ 
+ /* Realiza el emparejamiento por backtracking (ramificacion y poda)
+   Se pasa el costeActual y el costeMejor para realizar podas que
+   incrementan la velocidad de ejecucion */
+function emparejamiento($matriz , $lV,$lW,$nivel,$costeActual,&$costeMejor)
+{
+	
+	$coste = 0;
+	
+	if($nivel <= $lV)
+	{
+		//No se ha eliminado la palabra
+		if($matriz[$nivel][0]!= -1)
+		{
+			for ($i=0; $i < $lW ; $i++) { 
+				if($matriz[$nivel][$i] != -1 && $matriz[0][$i]>0)
+				{
+					//Se puede empezar a emparejar la palabra
+					$coste = $costeActual + $matriz[$nivel][$i];
+					
+					//Lo marca como cogido
+					$matriz[0][$i]*=-1;
+					
+					//Llamada recursiva
+					if($coste < $costeMejor || $costeMejor == -1)
+					{
+						emparejamiento($matriz, $lV, $lW, $nivel + 1 , $coste, $costeMejor);
+					}
+					
+					//Desmarcamos la palabra cogida
+					$matriz[0][$i]*=-1;
+				}
+			}
+			
+			//No se empareja con ninguna de las palabras
+			$coste = $costeActual + $matriz[$nivel][0];
+			
+			if($coste < $costeMejor || $costeMejor == -1)
+			{
+				emparejamiento($matriz, $lV, $lW, $nivel + 1 , $coste, $costeMejor);
+			}
+			
+		}
+		else 
+		{
+			//Se pasa alsiguiente nivel porque la palabra ya se ha emparejado
+			emparejamiento($matriz, $lV, $lW, $nivel+1, $costeActual, $costeMejor);
+		}
+	}
+	else 
+	{
+		/*
+		 * Se llega al final y se verifica que no se quede ninguna
+		 * palabra sin emparejar 
+		 */
+		
+		$coste = $costeActual;
+			
+		for ($i=0; $i < $lW ; $i++) { 
+			if($matriz[0][$i] > 0)
+			{
+				$coste+= $matriz[0][$i];
+			}
+		}	
+			
+		if($coste < $costeMejor || $costeMejor == -1)
+		{
+			$costeMejor = $coste;
+		}	
+	}
+	
+}
+  
     
 /*******************************************************************
  * Funciones auxiliares
@@ -121,7 +367,7 @@ function leerFich($fichero)
 }
 
 
-  
+
     
     
 ?>
