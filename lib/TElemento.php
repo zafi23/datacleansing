@@ -5,6 +5,9 @@
 		//Cadena
 		private $c;
 		
+		//Cadena Original
+		private $cOri;
+		
 		//Cadena csv original
 		private $csv;
 		
@@ -33,6 +36,10 @@
 			$this->lDIP = $longDIP;
 			$this->lDL = $longDL;
 			$this->indice = $ind;
+			
+			$strCsv = split(";", $cvsCad);
+			
+			$this->cOri = $strCsv[intval($posi)];
 		}
 		
 		//Funcion para modificar el campo a evaluar del csv
@@ -40,7 +47,7 @@
 		{
 			$csv = explode(";",$this->csv);
 			
-			$csv[intval($this->pos)] = $this->c;
+			$csv[intval($this->pos)] = $this->cOri;
 			
 			$this->csv = implode(";", $csv);
 			
@@ -51,9 +58,20 @@
 			return $this->c;
 		}
 		
+		public function getCOri()
+		{
+			return $this->cOri;
+		}
+		
 		public function setC($cad)
 		{
 			$this->c = $cad;
+		}
+		
+		public function setCOri($cad)
+		{
+			$this->cOri = $cad;
+			$this->reestructuraCsv();
 		}
 		
 		public function getCsv()

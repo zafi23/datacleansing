@@ -8,7 +8,7 @@
 	}
 
 	
-function sendMail($email,$msg)
+function sendMail($email,$msg,$subject,$attachment = "")
 {
 	
 	$mail = new PHPMailer();
@@ -28,20 +28,22 @@ function sendMail($email,$msg)
 	$mail->From = "no.reply.datacleansing@gmail.com";
 	
 	// nombre remitente, p. ej.: "Servicio de envío automático"
-	$mail->FromName = "Nombre_remitente";
+	$mail->FromName = "Servicio de Datacleansing";
 	
 	// asunto y cuerpo alternativo del mensaje
-	$mail->Subject = "Asunto";
+	$mail->Subject = $subject;
 	$mail->AltBody = "Cuerpo alternativo para cuando el visor no puede leer HTML en el cuerpo"; 
 	
-	$mail->addAttachment(realpath('ua.resB.csv')); 
-	
-	echo count($mail->getAttachments())."</br>";
+	if($attachment!="")
+	{
+		$mail->addAttachment(realpath($attachment));	
+	}
+
 	// si el cuerpo del mensaje es HTML
 	$mail->Body= $body;
 	
 	// podemos hacer varios AddAdress
-	$mail->AddAddress($email, "Nombre_destino");
+	$mail->AddAddress($email);
 	
 	
 	// si el SMTP necesita autenticación
@@ -51,14 +53,14 @@ function sendMail($email,$msg)
 	// credenciales usuario
 	$mail->Username = "no.reply.datacleansing@gmail.com";
 	$mail->Password = "Datacleansing2014"; 
-
+/*
 
 	if(!$mail->Send()) {
 	echo "Error enviando: " . $mail->ErrorInfo;
 	} else {
 	echo "¡¡Enviado!!";
 	}
-
+*/
 		
 }
 

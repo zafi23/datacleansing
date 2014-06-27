@@ -75,11 +75,13 @@ include_once 'lib/mail.php';
 	
 	clusteringTabla($file,$cadenas);
 	fclose($file);
-
+	 
+	 
+	$query_string = 'e=' . urlencode($email) . '&f=' . urlencode($newName);
 	$msg = "Para acceder al resultado del analisis acceda al siguiente link:</br>";
-	$msg.= "<a href=\"localhost/datacleansing/Clustering.php\">Acceso al contenido</a>";
+	$msg.= "<a href=\"localhost/datacleansing/Resultados.php?".$query_string."\">Acceso al contenido</a>";
+	$subject = "Aceso a resultados";
 
-
-	sendMail($email,$msg);
+	sendMail($email,$msg,$subject);
 
 ?>

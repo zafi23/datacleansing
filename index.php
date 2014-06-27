@@ -10,10 +10,12 @@
 				
 						<label for="tFichero">Fichero csv:</label>
 						<input type="file" id="tFichero" name="tFichero"/>
+						<span id="errorFichero" class="error"></span>
 						<br />
 						
 						<label for="tEmail">Email:</label>
 						<input type="text" id="tEmail" name="tEmail"/>
+						<span id="errorEmail" class="error"></span>
 						<br />
 						
 						<label for="cbSiglas">Incluir fichero de abreviaturas:</label>
@@ -23,11 +25,13 @@
 						<div id="divSiglas" style="display:none">
 							<label for="tSiglas">Fichero de abreviaturas:</label>
 							<input type="file" id="tSiglas" name="tSiglas"/>
+							<span id="errorSiglas" class="error"></span>
 							<br />
 						</div>
 
 						<label for="tPosicion">Posición de la cadena</label>
 						<input type="text" id="tPosicion" name="tPosicion"/>
+						<span id="errorPosicion" class="error"></span>
 						<br />
 						
 						<label for="cbAlpha">Incluir valor alpha:</label>
@@ -37,6 +41,7 @@
 						<div id="divAlpha" style="display: none">
 							<label for="tAlpha">Alfa</label>
 							<input type="text" id="tAlpha" name="tAlpha"/>
+							<span id="errorAlpha" class="error"></span>
 							<br />	
 						</div>
 						

@@ -89,13 +89,15 @@ function mostrar($listaC,$cads)
  * Funciones de cargado de datos
  ******************************************************************/
 
-function leerCadenas($fich,&$cads,&$n) {
+function leerCadenas($fich,&$cads,&$n,&$email,&$alpha) {
 	
 
 	$gestor = fopen($fich, "r");
 
 	if ($gestor) {
 
+		$email = fgets($gestor);
+		$alpha = fgets($gestor);
 		$n = fgets($gestor);
 		
 		$dist = new TDistancias($n);
@@ -136,12 +138,16 @@ function leerCadenas($fich,&$cads,&$n) {
 		
 		fclose($gestor);
 	}
+	else
+		{
+			echo "no me abro xk si";
+		}
 
 	return $dist;
 
 }
 
-function saveFichB($cads,$listaC)
+function saveFichB($file,$cads,$listaC)
 {
 
 	$cadenas = $cads;
@@ -162,11 +168,11 @@ function saveFichB($cads,$listaC)
 	
 	}
 	
-	saveFich($cadenas, "ua.resB.csv");
+	saveFich($file,$cadenas);
 	
 }
 
-function saveFichC($cads,$listaC)
+function saveFichC($file,$cads,$listaC)
 {
 	$cadenas = $cads;
 	
@@ -175,7 +181,7 @@ function saveFichC($cads,$listaC)
 		
 		$tc = $listaC[$i]->cluster();
 		$centro = $listaC[$i]->centro();
-		$cadCentro = $cadenas[$centro]->getC(); 
+		$cadCentro = $cadenas[$centro]->getCOri(); 
 		
 		
 		for($j = 0; $j < count($tc); $j++)
@@ -187,22 +193,19 @@ function saveFichC($cads,$listaC)
 	}
 	
 	
-	saveFich($cadenas, "ua.resC.csv");
+	saveFich($file,$cadenas);
 	
 }
 
-function saveFich($cadenas,$fichero)
+function saveFich($file,$cadenas)
 {
 	usort($cadenas, "compareElemento");
 	
-	$file = fopen($fichero,"w");
-
 	foreach ($cadenas as $cad) 
 	{
 		fputs($file, $cad->getCsv());
 	}
 	
-	fclose($file);
 }
 
 

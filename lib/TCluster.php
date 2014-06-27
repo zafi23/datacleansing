@@ -32,6 +32,11 @@
 		return $this->cluster;
 	}
 	
+	public function setCluster($c)
+	{
+		$this->cluster = $c;
+	}	
+	
 	public function primero()
 	{
 		return $this->cluster[0];
