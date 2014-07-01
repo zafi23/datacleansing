@@ -3,7 +3,12 @@
 	include_once("cabecera.inc");
 	include_once("lib/funciones.inc");
 
-	
+
+?>
+
+<div id="contenido">
+
+<?php
 	if(!isset($_GET['e']) || !isset($_GET['f']))
 	{
 ?>
@@ -14,7 +19,13 @@
 <?php
 	}
 	else 
-	{
+	{	
+?>
+
+	<div id="tablasDatos">
+
+
+<?php
 		$email = trim($_GET['e']);
 		$fichero = trim($_GET['f']);
 		
@@ -31,7 +42,7 @@
 		echo "<input type='hidden' id='cluster' value='0' />" ;
 		
 		
-		echo "<select id='cCads' name='cCads' size='20'>";
+		echo "<select id='cCads' name='cCads' class='floatIz' size='15'>";
 		
 		for($i = 0; $i < count($cadenasCluster); $i++)
 		{
@@ -41,34 +52,43 @@
 		
 		echo "</select>";
 		
-		echo "<input type='textbox' id='centroC' value='".$cads[$clusters[0]->centro()]->getC()."'/>"
+		echo "<label for='centroC'>Cadena centro:</label>";
+		echo "<input type='textbox' id='centroC' name='centroC' class='floatDer' value='".$cads[$clusters[0]->centro()]->getC()."'/>"
 	
 ?>
 
-	<fieldset id="objMod" style="display:none">
-		<input type="text" id="cadMod"/>
-		<span id="errorCadMod" class="error"></span>
-		<br />
-		
-		<label for="qCad">Quitar cadena de cluster:</label>
-		<input type="checkbox" id="qCad" name="qCad" />
-		<br />
-
-		<input type="button" value="Modificar" onclick="javascript:guardarMods()" />		
-	</fieldset>
-
-	<form action="javascript:guardarFichero()" method="post">
-		<input type="radio" name="tipoGuardado" value="0" checked>Mantener todos los registros de los clusters
-		<input type="radio" name="tipoGuardado" value="1">Borrar filas de cluster y dejar el registro centro
-		
-		</br>
-		<input type="submit" value="Guardar Fichero" />
-	</form>
-
-
+		<fieldset id="objMod"style="display:none">
+			<legend>Datos de la cadena</legend>
+			<input type="text" id="cadMod"/>
+			<span id="errorCadMod" class="error"></span>
+			<br />
+			
+			<label for="qCad">Quitar cadena de cluster:</label>
+			<input type="checkbox" id="qCad" name="qCad" />
+			<br />
+	
+			<input type="button" value="Modificar" onclick="javascript:guardarMods()" />		
+		</fieldset>
+	
+		<form action="javascript:guardarFichero()" method="post" class='floatIz'>
+			<input type="radio" name="tipoGuardado" value="0" checked><span>Mantener todos los registros de los clusters</span>                
+			<input type="radio" name="tipoGuardado" value="1"><span> Borrar filas de cluster y dejar el registro centro</span> 
+			
+			</br>
+			<input type="submit" value="Guardar Fichero" />
+		</form>
+	</div>
+	
+	<div id="msgEnviado" style="display: none">
+		Mensaje enviado correctamente a su correo, gracias por utilizar nuestro servicio
+	</div>
+	
 <?php
 	}
-	
+
+?>
+</div>
+<?php
 	include_once("pie.inc");
 
 ?>

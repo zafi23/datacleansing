@@ -1,0 +1,187 @@
+
+*{
+    margin: 0;
+}
+
+html,body,#cuerpo {
+height: 100%; /* hacer que la página llene toda la altura */
+}
+
+body > #cuerpo {
+	
+	min-height: 100%;
+	min-width: 1100px;
+	height: 100vh;
+}
+
+body{
+	margin-left: 10%;
+	margin-right: 10%;
+	background-image: url(../img/background2.jpg);
+	/*-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-backgroung-size: cover;
+	background-size: cover;*/
+}
+
+
+
+
+/*******************************************************************
+ * Reglas de floats
+ ******************************************************************/
+
+.floatDer{
+	float: right;
+}
+
+.floatIz{
+	float: left;
+}
+
+/*******************************************************************
+ * Reglas de divs
+ ******************************************************************/
+
+div{
+	display: block;
+}
+
+
+
+#contenido{
+
+	position: relative;
+	padding-left: 10%;
+	padding-right: 10%;
+	padding-top: 2%;
+	height: 70%;
+	background-color: white;
+	border-radius: 25px;
+	box-shadow: 0 0 30px #999;
+}
+
+#cabecera{
+
+	position: relative;
+	padding-left: 1em;
+	text-align: center;
+	
+	background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 49%, rgba(0,0,0,0.64) 50%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(49%,rgba(0,0,0,0.65)), color-stop(50%,rgba(0,0,0,0.64)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 49%,rgba(0,0,0,0.64) 50%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 49%,rgba(0,0,0,0.64) 50%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 49%,rgba(0,0,0,0.64) 50%,rgba(0,0,0,0) 100%); /* IE10+ */
+	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 49%,rgba(0,0,0,0.64) 50%,rgba(0,0,0,0) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+		
+}
+
+#cabecera img{
+	padding-bottom: 2%;
+	padding-top: 1%;
+}
+
+#pie{
+	text-align: center;
+	padding-top: 2%;
+	clear: both;
+}
+
+
+#btnEnviar{
+	margin-left: 50%;
+}
+
+#listaClusters{
+	margin-left: -5em;
+	min-width: 110px;
+}
+
+#cCads{
+	min-width: 500px;
+	max-width: 280px;
+}
+
+#centroC{
+	width: 30%;
+}
+
+#objMod{
+	display: block;
+	float: right;
+	width: 29%;
+}
+
+#objMod>input,span,label{
+	margin-left: 1em;
+}
+
+#cadMod{
+	width: 95%;
+}
+
+#formFichero label{
+  width:25%;
+  text-align:right;
+
+  }
+
+
+fieldset {
+	padding: 1em;
+	padding-left: 0;
+	font: 80%/1 sans-serif;
+	border: 1px solid #999;
+	border-radius: 8px;
+	box-shadow: 0 0 10px #999;
+	margin-bottom: 1em;
+  }
+  
+legend{
+	background: #fff;
+	text-align: center;
+}  
+ 
+label{
+  font-weight:bold;
+  display:block;
+  float:left;
+  margin-right: 1em;
+}
+
+input{
+	margin-bottom: 1em;
+
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+
+}
+
+select{
+	margin: 1em;
+ 	-webkit-border-radius: 8px 0 0 8px;
+ 	-moz-border-radius: 8px 0 0 8px;
+ 	box-shadow: 0 0 10px #999;
+ 	padding: 1em;
+
+}
+
+
+p                 { padding: 5px; }
+
+input.boton      {  width: 70px;}
+
+
+
+/*******************************************************************
+ * Reglas de clases
+ ******************************************************************/
+
+.error{
+	color: red;
+	font-weight:bold;
+}
+
+
+

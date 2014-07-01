@@ -1,10 +1,10 @@
-</div>
+
 	
 	<div id="pie">
-		&copy; Cristina Barros Catalán
+		&copy; DataCleansing project
 		
 	</div>
 
-
+</div>
 </body>
 </html>

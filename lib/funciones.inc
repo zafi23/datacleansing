@@ -28,7 +28,7 @@
 	function mostrarListaClusters($clusters)
 	{
 		
-		echo "<select name='listaClusters' size='20'>";
+		echo "<select id='listaClusters' name='listaClusters' class='floatIz' size='15'>";
 		
 		for($i = 0; $i < count($clusters); $i++)
 		{
@@ -76,6 +76,10 @@
 				{			
 					if(intval($tc[$j]) == intval($mods[$i]->indice) )
 					{
+						$elem = $tc[$j];
+						$clus = new TCluster();
+						$clus->inserta($elem);
+						array_push($clusters,$clus);	
 						unset($tc[$j]);
 						break;
 					}

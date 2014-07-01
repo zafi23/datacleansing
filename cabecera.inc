@@ -5,18 +5,20 @@
 	<meta name="keywords" content="XHTML, web" />
 	<meta name="description" content="Proyecto Datacleansing" />
 	
-	<!--<link rel="stylesheet" type="text/css" href="css/plantilla1.css" title="Estilo principal"/>
-	<link rel="alternate stylesheet" type="text/css" href="css/alternativa.css" title="Estilo alternativo" />
-	<link rel="stylesheet" type="text/css" href="css/print.css" media="print" title="Estilo impresion"/>
-	-->
+	<link rel="stylesheet" type="text/css" href="css/estilo.css" title="Estilo principal"/>
 	<script type="text/javascript" src="js/funciones.js"></script>
 	
 	<title>DataCleansing</title>
 	
 </head>
 <body>
+<div id="cuerpo">
 
 	<div id="cabecera">
-	
+		<img border="0" src="img/logo.png" alt="Logo" width="400" height="50">
+		
+		<!--<h1>DataCleansing Project</h1>-->
 
 	</div>
+
+	

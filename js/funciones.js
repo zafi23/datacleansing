@@ -18,29 +18,26 @@ function validar(f)
 	var cbSiglas = f.cbSiglas.checked;
 	var cbAlpha = f.cbAlpha.checked;
 
-	var VFichero = estaVacio(fichero);
+	var VFichero = validarFichero(fichero);
 	var Vemail = validarEmail(email);
 	var Vposicion = validarPosicion(posicion);
 	
+	var VAbrev = validarAbreviaturas(siglas);
+	var Valpha = validarAlpha(alpha);
 	
 	
-	if(!VFichero)
-	{
-		valido = true;
-		document.getElementById("errorFichero").innerHTML = "";
-	}
-	else
-	{
-		document.getElementById("errorFichero").innerHTML = "El fichero no puede estar vacio";
-	}
-	
-	if( Vemail && Vposicion )
+	if(VFichero && Vemail && Vposicion)
 	{
 		valido = true;
 	}
+
 	
+	if(cbSiglas && !validarAbreviaturas(siglas))
+	{
+		valido = false;
+	}
 	
-	if((cbSiglas && estaVacio(siglas)) || (cbAlpha && !validarAlpha(alpha)))
+	if(cbAlpha && !validarAlpha(alpha))
 	{
 		valido = false;
 	}
@@ -104,6 +101,42 @@ function validarAlpha(a)
 	{
 		valido = true;
 		document.getElementById("errorAlpha").innerHTML = "";
+	}
+	
+	return valido;
+}
+
+function validarAbreviaturas(a)
+{
+	var valido = false;
+	
+	if(estaVacio(a))
+	{
+		//Poner en el campo de error que tiene que ser un numero
+		document.getElementById("errorSiglas").innerHTML = "Las abreviaturas no pueden estar vacias";
+	}
+	else 
+	{
+		valido = true;
+		document.getElementById("errorSiglas").innerHTML = "";
+	}
+	
+	return valido;
+}
+
+function validarFichero(a)
+{
+	var valido = false;
+	
+	if(estaVacio(a))
+	{
+		//Poner en el campo de error que tiene que ser un numero
+		document.getElementById("errorFichero").innerHTML = "El fichero no puede estar vacio";
+	}
+	else 
+	{
+		valido = true;
+		document.getElementById("errorFichero").innerHTML = "";
 	}
 	
 	return valido;
@@ -208,8 +241,13 @@ function calcularTablas()
 	  
 	xmlhttp.onreadystatechange=function(){};
 	
+	document.getElementById("msgEnviado").style.display="inline";
+	document.getElementById("formFichero").style.display="none";
+	
+	
 	xmlhttp.open("POST","CalculaTablas.php",true);
 	xmlhttp.send(formData);
+	
 	
 }
 
@@ -292,7 +330,11 @@ function guardarFichero()
 	  }
 	  
 	xmlhttp.onreadystatechange=function(){
-
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+	    {
+	    	document.getElementById("msgEnviado").style.display="inline";
+	    	document.getElementById("tablasDatos").style.display="none";
+	    }
 	};
 	
 	xmlhttp.open("POST","GuardarFichero.php",true);

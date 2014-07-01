@@ -53,14 +53,14 @@ function sendMail($email,$msg,$subject,$attachment = "")
 	// credenciales usuario
 	$mail->Username = "no.reply.datacleansing@gmail.com";
 	$mail->Password = "Datacleansing2014"; 
-/*
+
 
 	if(!$mail->Send()) {
 	echo "Error enviando: " . $mail->ErrorInfo;
 	} else {
 	echo "¡¡Enviado!!";
 	}
-*/
+
 		
 }
 
