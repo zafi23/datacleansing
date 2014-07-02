@@ -155,8 +155,29 @@ function mostrarDatos(f)
 	var cadena = document.getElementById("cadMod");
 	var c = f.text.split(";");
 	var pos = document.getElementById("posicion").value;
+	var cCads = document.getElementById("cCads");
+	var cluster = document.getElementById("cluster").value;
+	var indice = cCads.value;
+
 	
-	document.getElementById("qCad").checked = false;
+	var i = indiceMod(c[pos],cluster,indice);
+
+	if(i!=-1)
+	{
+		if(ArrayMod[i].operacion == 0)
+		{
+			document.getElementById("qCad").checked = true;
+		}
+		else
+		{
+			document.getElementById("qCad").checked = false;
+		}
+	}
+	else
+	{
+		document.getElementById("qCad").checked = false;
+	}
+	
 	cadena.value = c[pos];
 	
 	
@@ -166,17 +187,18 @@ function mostrarDatos(f)
 function guardarMods()
 {
 	var cadena = document.getElementById("cadMod").value;
+	var cCads = document.getElementById("cCads");
+	var cluster = document.getElementById("cluster").value;
+	var indice = cCads.value;
+	
 	
 	if(estaVacio(cadena))
 	{
 		document.getElementById("errorCadMod").innerHTML = "La cadena no puede estar vacia";
 	}
-	else
+	else if(indiceMod(cadena,cluster,indice)==-1)
 	{
 		document.getElementById("errorCadMod").innerHTML = "";
-		var cCads = document.getElementById("cCads");
-		var cluster = document.getElementById("cluster").value;
-		var indice = cCads.value;
 		var operacion  = -1;
 		var posicion =  document.getElementById("posicion").value;
 		
@@ -412,15 +434,19 @@ function esEntero(x)
 	return x == y && x.toString() == y.toString();
 }
 
-
-//Funcion que devuelve el valor del parametro name en la url
-function gup( name ){
-	var regexS = "[\\?&]"+name+"=([^&#]*)";
-	var regex = new RegExp ( regexS );
-	var tmpURL = window.location.href;
-	var results = regex.exec( tmpURL );
-	if( results == null )
-		return"";
-	else
-		return results[1];
+function indiceMod(cad,cluster,indice)
+{
+	ind = -1;
+	
+	for(var i = 0; i < ArrayMod.length ; i++)
+	{
+		if(ArrayMod[i].cadena == cad && ArrayMod[i].indice == indice && ArrayMod[i].cluster == cluster )
+		{
+			ind = i;
+			break;
+		}
+	}
+	
+	return ind;
 }
+
