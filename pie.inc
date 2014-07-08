@@ -1,7 +1,7 @@
 
 	
 	<div id="pie">
-		&copy; DataCleansing project
+		&#169; DataCleansing project
 		
 	</div>
 

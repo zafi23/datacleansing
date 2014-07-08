@@ -196,7 +196,7 @@ function guardarMods()
 	{
 		document.getElementById("errorCadMod").innerHTML = "La cadena no puede estar vacia";
 	}
-	else if(indiceMod(cadena,cluster,indice)==-1)
+	else if(indiceMod(cluster,indice)==-1)
 	{
 		document.getElementById("errorCadMod").innerHTML = "";
 		var operacion  = -1;
@@ -219,6 +219,47 @@ function guardarMods()
 		
 	}
 	
+}
+
+function guardarModCentro()
+{
+	var cadena = document.getElementById("centroC").value;
+	var cluster = document.getElementById("cluster").value;
+	var indice = document.getElementById("indiceC").value;;
+	var i =indiceMod(cluster,indice);
+	
+	if(estaVacio(cadena))
+	{
+		document.getElementById("errorCentroC").innerHTML = "La cadena no puede estar vacia";
+	}
+	else if(i==-1)
+	{
+		document.getElementById("errorCentroC").innerHTML = "";
+		var operacion  = -1;
+		
+		var obj = new ObjModificado(cluster,indice,cadena,operacion);
+		
+		ArrayMod.push(obj);
+		var cCads = document.getElementById("cCads");
+		var posicion =  document.getElementById("posicion").value;
+	
+		for(var i = 0; i < cCads.length; i++)
+		{
+		      if(cCads.options[i].value == indice)
+		      {
+		      	var cCsv = cCads.options[i].text;
+				var csv = cCsv.split(";");
+				csv[posicion] = cadena;
+				
+				cCads.options[i].text = csv.join(";");
+				break;
+		      }
+		}	
+	}
+	else
+	{
+		ArrayMod[i].cadena = cadena;
+	}
 }
 
 
@@ -296,8 +337,16 @@ function mostrarCadenas(num)
 	    {
 	    	var resultado = JSON.parse(xmlhttp.responseText);
 	    	var centro = resultado[0];
-	    	var cads = resultado[1];
+	    	var indiceC = resultado[1];
+	    	var iCentro = indiceMod(num,indiceC);
+	    	if(iCentro!=-1)
+	    	{
+	    		centro = ArrayMod[iCentro].cadena;
+	    	}
 	    	
+	    	
+	    	var cads = resultado[2];
+	    	var posicion =  document.getElementById("posicion").value;
 	    	
 	    	var select = document.getElementById("cCads");
 	    	select.innerHTML = "";
@@ -305,7 +354,23 @@ function mostrarCadenas(num)
 	    	for(i in cads)
 	    	{
 	    		var option = document.createElement("option");
-				option.text = cads[i][0];
+	    		
+	    		var iCad = indiceMod(num,cads[i][1]);
+	    		
+	    		if(iCad!=-1)
+		    	{
+		    		var cCsv = cads[i][0];
+					var csv = cCsv.split(";");
+					csv[posicion] = ArrayMod[iCad].cadena;
+					
+					option.text = csv.join(";");
+
+		    	}
+	    		else
+	    		{
+	    			option.text = cads[i][0];
+	    		}
+				
 				option.value = cads[i][1];
 				option.addEventListener("click", function(){
     					mostrarDatos(this);});
@@ -313,6 +378,7 @@ function mostrarCadenas(num)
 	    	}
 	    	
 	    	document.getElementById("centroC").value = centro;
+	    	document.getElementById("indiceC").value = indiceC;
 	    	document.getElementById("cluster").value = num;
 	    	document.getElementById("objMod").style.display="none";
 
@@ -434,13 +500,13 @@ function esEntero(x)
 	return x == y && x.toString() == y.toString();
 }
 
-function indiceMod(cad,cluster,indice)
+function indiceMod(cluster,indice)
 {
 	ind = -1;
 	
 	for(var i = 0; i < ArrayMod.length ; i++)
 	{
-		if(ArrayMod[i].cadena == cad && ArrayMod[i].indice == indice && ArrayMod[i].cluster == cluster )
+		if(ArrayMod[i].indice == indice && ArrayMod[i].cluster == cluster )
 		{
 			ind = i;
 			break;

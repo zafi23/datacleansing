@@ -53,11 +53,13 @@
 		echo "</select>";
 		
 		echo "<label for='centroC'>Cadena centro:</label>";
-		echo "<input type='textbox' id='centroC' name='centroC' class='floatDer' value='".$cads[$clusters[0]->centro()]->getC()."'/>"
+		echo "<input type='text' id='centroC' name='centroC' class='floatDer' value='".$cads[$clusters[0]->centro()]->getC()."' onchange='guardarModCentro()'/>";
+		echo "<span id='errorCentroC' class='error'></span>";
+		echo "<input type='hidden' id='indiceC' value='".$clusters[0]->centro()."' />" ;
 	
 ?>
 
-		<fieldset id="objMod"style="display:none">
+		<fieldset id="objMod" style="display:none">
 			<legend>Datos de la cadena</legend>
 			<input type="text" id="cadMod"/>
 			<span id="errorCadMod" class="error"></span>
@@ -71,10 +73,10 @@
 		</fieldset>
 	
 		<form action="javascript:guardarFichero()" method="post" class='floatIz'>
-			<input type="radio" name="tipoGuardado" value="0" checked><span>Mantener todos los registros de los clusters</span>                
-			<input type="radio" name="tipoGuardado" value="1"><span> Borrar filas de cluster y dejar el registro centro</span> 
+			<input type="radio" name="tipoGuardado" value="0" checked="checked" /><span>Mantener todos los registros de los clusters</span>                
+			<input type="radio" name="tipoGuardado" value="1" /><span> Borrar filas de cluster y dejar el registro centro</span> 
 			
-			</br>
+			<br />
 			<input type="submit" value="Guardar Fichero" />
 		</form>
 	</div>

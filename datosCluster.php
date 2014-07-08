@@ -10,8 +10,9 @@
 	$clusters = unserialize($_SESSION["clusters"]);
 
 	$centro = $cads[$clusters[$cluster]->centro()]->getC();
+	$indiceCentro = $clusters[$cluster]->centro();
 	
-	$datos = array($centro,$cadenas);
+	$datos = array($centro,$indiceCentro,$cadenas);
 
 	echo json_encode($datos);
 ?>

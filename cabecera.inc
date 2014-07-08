@@ -15,7 +15,7 @@
 <div id="cuerpo">
 
 	<div id="cabecera">
-		<img border="0" src="img/logo.png" alt="Logo" width="400" height="50">
+		<img border="0" src="img/logo.png" alt="Logo" width="400" height="50"/>
 		
 		<!--<h1>DataCleansing Project</h1>-->
 
