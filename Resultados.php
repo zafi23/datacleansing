@@ -68,14 +68,20 @@
 			<label for="qCad">Quitar cadena de cluster:</label>
 			<input type="checkbox" id="qCad" name="qCad" />
 			<br />
-	
+			
+			<label for="bCad">Borrar cadena del fichero:</label>
+			<input type="checkbox" id="bCad" name="bCad" />
+			<br />
+			
 			<input type="button" value="Modificar" onclick="javascript:guardarMods()" />		
 		</fieldset>
 	
 		<form action="javascript:guardarFichero()" method="post" class='floatIz'>
-			<input type="radio" name="tipoGuardado" value="0" checked="checked" /><span>Mantener todos los registros de los clusters</span>                
-			<input type="radio" name="tipoGuardado" value="1" /><span> Borrar filas de cluster y dejar el registro centro</span> 
-			
+			<input type="radio" name="tipoGuardado" value="0" checked="checked" /><span>Mantener todos los registros de los clusters</span> 
+			</br>               
+			<input type="radio" name="tipoGuardado" value="1" /><span> Mantener registros y modificarlos por el registro centro</span>
+			</br>
+			<input type="radio" name="tipoGuardado" value="2" /><span> Borrar filas de cluster y dejar el registro centro</span> 
 			<br />
 			<input type="submit" value="Guardar Fichero" />
 		</form>

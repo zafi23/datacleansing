@@ -20,14 +20,19 @@
 
 	$file = fopen($fichero,"w");
 	
-	if($tipo == 0 )
+	switch($tipo)
 	{
-		saveFichC($file,$cads,$listaC);
+		case 0:
+			saveFich($file,$cads);
+			break;
+		case 1:
+			saveFichC($file,$cads,$listaC);
+			break;
+		case 2:
+			saveFichB($file,$cads,$listaC);
+			break;
 	}
-	else 
-	{
-		saveFichB($file,$cads,$listaC);
-	}
+
 	
 	fclose($file);
 

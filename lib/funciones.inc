@@ -22,6 +22,7 @@
 		$_SESSION["clusters"] = serialize($listaCluster); 
 		$_SESSION["email"] = $email;
 		$_SESSION["nomF"] = $nomFich;
+		$_SESSION["dist"] = serialize($dist);
 				
 	}
 	
@@ -63,6 +64,7 @@
 	{
 		$cads = unserialize($_SESSION["cads"]);
 		$clusters = unserialize($_SESSION["clusters"]);
+		$dist = unserialize($_SESSION["dist"]);
 
 		for($i = 0; $i < count($mods); $i++)
 		{
@@ -71,6 +73,7 @@
 			if($mods[$i]->operacion == 0)
 			{
 				$tc = $clusters[intval($mods[$i]->cluster)]->cluster();
+				$centro = $clusters[intval($mods[$i]->cluster)]->centro();
 				
 				for($j = 0; $j < count($tc); $j++)
 				{			
@@ -79,15 +82,39 @@
 						$elem = $tc[$j];
 						$clus = new TCluster();
 						$clus->inserta($elem);
+						$clus->calcularCentro($dist);
 						array_push($clusters,$clus);	
 						unset($tc[$j]);
 						break;
 					}
 				}
 				
-				array_values($tc);
+				$tc = array_keys($tc);
+					
 				$clusters[$mods[$i]->cluster]->setCluster($tc);
+				$clusters[$mods[$i]->cluster]->calcularCentro($dist);
 			}
+			else if($mods[$i]->operacion == 1)
+			{
+					
+				$tc = $clusters[intval($mods[$i]->cluster)]->cluster();
+				$centro = $clusters[intval($mods[$i]->cluster)]->centro();
+				
+				for($j = 0; $j < count($tc); $j++)
+				{			
+					if(intval($tc[$j]) == intval($mods[$i]->indice))
+					{
+						$elem = $tc[$j];
+						unset($tc[$j]);
+						break;
+					}
+				}
+				
+				$tc = array_values($tc);
+				$clusters[$mods[$i]->cluster]->setCluster($tc);
+				$clusters[$mods[$i]->cluster]->calcularCentro($dist);
+				unset($cads[$mods[$i]->indice]);
+			} 
 			
 		}
 		

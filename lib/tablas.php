@@ -281,7 +281,21 @@ function clusteringTabla($file,$cadenas) {
 			{
 				$mejor = $jaccard;
 			}
-
+			
+			/*$auxS = 1 - (soundSim($cadenas[$i]->getC(), $cadenas[$j]->getC())/100);
+			$auxM = 1 - (metaSim($cadenas[$i]->getC(), $cadenas[$j]->getC())/100);
+			
+			if($auxS <= $mejor)
+			{
+				$mejor = $auxS;
+			}
+			
+			if($auxM <= $mejor)
+			{
+				$mejor = $auxM;
+			}
+			*/
+			
 			fputs($file,number_format(round($mejor,6),6)." ");
 			
 			

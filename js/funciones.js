@@ -164,14 +164,21 @@ function mostrarDatos(f)
 
 	if(i!=-1)
 	{
-		if(ArrayMod[i].operacion == 0)
+		switch(ArrayMod[i].operacion)
 		{
-			document.getElementById("qCad").checked = true;
+			case 0:
+				document.getElementById("qCad").checked = true;
+				document.getElementById("bCad").checked = false;
+				break;
+			case 1:
+				document.getElementById("qCad").checked = false;
+				document.getElementById("bCad").checked = true;
+				break;
+			default:
+				document.getElementById("qCad").checked = false;
+				document.getElementById("bCad").checked = false;	
 		}
-		else
-		{
-			document.getElementById("qCad").checked = false;
-		}
+		
 	}
 	else
 	{
@@ -205,6 +212,11 @@ function guardarMods()
 		if(document.getElementById("qCad").checked)
 		{
 			operacion = 0;
+		}
+		
+		if(document.getElementById("bCad").checked)
+		{
+			operacion = 1;
 		}
 		
 		var obj = new ObjModificado(cluster,indice,cadena,operacion);
