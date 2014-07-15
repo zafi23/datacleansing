@@ -2,6 +2,7 @@
     
 	include_once("lib/funciones.inc");
 	
+	//Se obtiene la informacion de un cluster y se envia a la parte cliente
 	$cluster = $_POST["cluster"];
 	
 	$cadenas = cadenasCluster($cluster);
@@ -11,6 +12,7 @@
 
 	$centro = $cads[$clusters[$cluster]->centro()]->getC();
 	$indiceCentro = $clusters[$cluster]->centro();
+	
 	
 	$datos = array($centro,$indiceCentro,$cadenas);
 

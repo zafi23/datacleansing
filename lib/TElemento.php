@@ -1,5 +1,9 @@
 <?php
    
+   /*
+    *Clase TElemento que contiene la informacion de las cadenas  
+    *
+    */
    class TElemento{
 			
 		//Cadena
@@ -106,6 +110,12 @@
 	
    }
    
+     /*Funcion que compara las cadenas por el parametro de indice
+	 * 
+	 * @param TElemento el1 TElemento 1
+	 * @param TElemento el2 TElemento 2
+	 * @return comapracion entre los indices de los TElementos
+	 */
    function compareElemento($el1, $el2) {
 
 	if (intval($el1 -> getIndice()) > intval($el2 -> getIndice())) {

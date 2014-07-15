@@ -1,5 +1,9 @@
 <?php
 
+	/*
+	 * Clase TDistancias donde se guarda la informacion de las distancias entre las 
+	 * cadenas
+	 */
 	class TDistancias{
 		//Tamanyo del vector	
 		private $n;

@@ -10,6 +10,11 @@ include_once 'distancias.php';
 /*******************************************************************
  * Funciones de Diccionario
  ******************************************************************/
+ 
+/*
+ * Clase donde se almacena la informacion de las cadenas 
+ * 
+ */ 
 class Diccionario {
 
 	//La cadena
@@ -77,6 +82,14 @@ class Diccionario {
 		return $this -> indice;
 	}
 
+	  /*Constructor de la clase Diccionario
+	 * Se guardan los datos y se calcula el vector de frecuencias dit
+	 * 
+	 * @param string cadena cadena principal de la clase diccionario
+	 * @param string csvCad cadena csv original del fichero de base de datos
+	 * @param int position posicion donde se encuentra la cadena respecto del csv
+	 * @param int in indice que ocupa la cadena en el fichero de base de datos original
+	 */
 	public function __construct($cadena,$csvCad,$position,$in) {
 		$this -> c = $cadena;
 		$this -> l = strlen($this -> c);
@@ -106,6 +119,12 @@ class Diccionario {
 
 }
 
+  /*Funcion que obtiene compara dos objetos Diccionario por su frecuencia
+ * 
+ * @param Diccionario dic1 diccionario 1
+ * @param Diccionario dic2 diccionario 2
+ * @return int el resultado de la comparacion
+ */
 function compareDiccionario($dic1, $dic2) {
 
 	if ($dic1 -> getF() > $dic2 -> getF()) {
@@ -118,6 +137,13 @@ function compareDiccionario($dic1, $dic2) {
 
 }
 
+  /*Funcion que lee wl fichero y obtiene las cadenas para guardarlas como diccionarios
+ * 
+ * @param string fich nombre del fichero del que se obtienen las cadenas
+ * @param Abreviatura abreviaturas array de la clase Abreviatura que se usa para expandir las cadenas
+ * @param int position posicion de la cadena respecto del csv
+ * @return array diccionarios generados
+ */
 function cargarDiccionarios($fich,$abreviaturas,$position) {
 	$cads = array();
 	
@@ -160,6 +186,9 @@ function cargarDiccionarios($fich,$abreviaturas,$position) {
  * Funciones de Abreviaturas
  ******************************************************************/
 
+/*
+ * Clase donde se guardan las abreviaturas con su abreviatura y su expansion correspondiente
+ * */ 
 class Abreviatura {
 
 	//Abreviatura
@@ -187,6 +216,11 @@ class Abreviatura {
 
 }
 
+  /*Funcion que obtiene las abreviaturas del fichero de abreviaturas
+ * 
+ * @param string fich nombre del fichero del que se obtienen las abreviaturas
+ * @return array devuelve un array de abreviaturas 
+ */
 function cargarAbreviaturas($fich) {
 	$cads = array();
 
@@ -215,6 +249,12 @@ function cargarAbreviaturas($fich) {
 	return $cads;
 }
 
+  /*Funcion que expande las abreviaturas de una cadena
+ * 
+ * @param string cadena cadena a expandir abreviaturas
+ * @param array abreviaturas array que contiene la informacion de las abreviaturas
+ * @return string cadena con las abreviaturas expandidas
+ */
 function expandirAbreviaturas($cadena, $abreviaturas) {
 	$cad = $cadena;
 	
@@ -234,6 +274,12 @@ function expandirAbreviaturas($cadena, $abreviaturas) {
  * Funciones Clustering
  ******************************************************************/
 
+   /*Funcion que calcula la distancia menor entre las cadenas
+ * Calcula y compara distintos tipos de distancias para conseguir el menor coste o distancia entre ellas
+ * 
+ * @param file recurso con nombre asociado a un fichero abierto
+ * @param array cadenas array de diccionarios con todas las cadenas del fichero 
+ */
 function clusteringTabla($file,$cadenas) {
 
 	$i = 0;
@@ -314,6 +360,12 @@ function clusteringTabla($file,$cadenas) {
  * Funciones auxiliares
  ******************************************************************/
 
+  /*Funcion que devuelve si una cadena esta entre los diccionarios guardados
+ * 
+ * @param array cads array de Diccionarios 
+ * @param string c cadena a evaluar
+ * @return boolean devuelve true si el array de disccionarios contiene la cadena c
+ */
 function contiene($cads, $c) {
 	$contiene = false;
 
@@ -328,6 +380,11 @@ function contiene($cads, $c) {
 	return $contiene;
 }
 
+  /*Funcion que limpia las cadenas 
+ * 
+ * @param string cad cadena a limpiar
+ * @return string cadena limpiada
+ */
 function limpiaCad($cad) {
 	$cadena = utf8_encode($cad);
 	$cadena = trim($cad);

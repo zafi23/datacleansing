@@ -7,7 +7,13 @@
 	require_once('phpmailer/class.smtp.php');
 	}
 
-	
+  /*Funcion que manda un correo utilizando la clase PhpMailer
+ * 
+ * @param string email email al que se le va a mandar el correo
+ * @param string msg mensaje que contiene el correo
+ * @param string subject asunto del correo
+ * @param string attachment nombre del objeto a adjuntar al correo
+ */	
 function sendMail($email,$msg,$subject,$attachment = "")
 {
 	

@@ -2,7 +2,10 @@
   
   include_once 'TDistancias.php';
   
-  
+  /*
+   * Clase TCluster que contiene la informacion de un emparejamiento
+   * Contiene las referencias a los elementos que forman el emparejamiento
+   */
   class TCluster{
   	
 	//Elemento que es el centro del cluster
@@ -68,6 +71,11 @@
 		$this->n++;
 	}
 	
+	  /*Funcion que calcula el elemento centro del emparejamiento
+	 * 
+	 * @param TDistancias matriz de distancias entre las cadenas
+	 * @return int referencia al elemento centro
+	 */
 	public function calcularCentro($dist)
 	{
 		$d = 0;

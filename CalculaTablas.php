@@ -16,6 +16,7 @@ include_once 'lib/mail.php';
 		mkdir("users/".$email);
 	}
 	
+	//Si la variable de fichero existe la copio al servidor
 	if($_FILES["fichero"]["error"] != 4)
 	{
 		
@@ -27,7 +28,7 @@ include_once 'lib/mail.php';
 		move_uploaded_file($_FILES["fichero"]["tmp_name"],$fichero);
 	}
 	
-	
+	//Si la variable de abreviaturas existe la copio al servidor
 	if($_FILES["abreviaturas"]["error"] != 4)
 	{
 		
@@ -40,12 +41,15 @@ include_once 'lib/mail.php';
 	}
 	
 
-	
+	//Se cargan las abreviaturas si existe el fichero de abreviaturas
 	if(isset($fAbrev))
 		$abreviaturas = cargarAbreviaturas($fAbrev);
 	
+	//Cargo los diccionarios 
 	$cadenasOri = cargarDiccionarios($fichero, $abreviaturas,$position);
 	$cadenas = $cadenasOri;
+	
+	//Los ordeno
 	usort($cadenas, "compareDiccionario");
 	$arrayobject = new ArrayObject($cadenas);
 	$iterator = $arrayobject->getIterator();
@@ -54,6 +58,7 @@ include_once 'lib/mail.php';
 	
 	$newName = $name[0].".dist";
 	
+	//Guardo la informacion de las cadenas en el fichero
 	$file = fopen("users/".$email."/".$newName,"w");
 	
 	fputs($file, $email."\n");
@@ -73,10 +78,11 @@ include_once 'lib/mail.php';
 		$iterator->next();
 	}
 	
+	//Calculo las distancias de las cadenas
 	clusteringTabla($file,$cadenas);
 	fclose($file);
 	 
-	 
+	//Se envia el mensaje con el link para acceder a los resultados
 	$query_string = 'e=' . urlencode($email) . '&f=' . urlencode($newName);
 	$msg = "Para acceder al resultado del analisis acceda al siguiente link:</br>";
 	$msg.= "<a href=\"localhost/datacleansing/Resultados.php?".$query_string."\">Acceso al contenido</a>";

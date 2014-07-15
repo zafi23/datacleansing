@@ -20,6 +20,7 @@
 
 	$file = fopen($fichero,"w");
 	
+	//Se realiza un tipo de guardado distinto acorde a la opcion escogida por el usuario
 	switch($tipo)
 	{
 		case 0:
@@ -42,7 +43,7 @@
 	$subject = "Fichero resultante";
 	sendMail($email,$msg,$subject,$fichero);
 	
-	
+	//Se borran las variables de session y se elimina la session
 	unset($_SESSION["cads"]);
 	unset($_SESSION["clusters"]);
 	unset($_SESSION["email"]);

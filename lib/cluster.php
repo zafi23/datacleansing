@@ -8,6 +8,13 @@ include_once 'TCluster.php';
  * Funciones de clustering
  ******************************************************************/
 
+/*Funcion que realiza el algoritmo de emparejamiento de las cadenas
+ * 
+ * @param array listaC lista de los clusteres obtenidos
+ * @param TDistancias dist distancias entre las cadenas
+ * @param int numero referencia al elemento que se quiere emparejar
+ * @param float alphaDL valor alpha que se considera para introducir un elemento en el emparejamiento 
+ */
 function clustering(&$listaC,$dist,$numero,$alphaDL)
 {
 	
@@ -63,7 +70,11 @@ function clustering(&$listaC,$dist,$numero,$alphaDL)
 /*******************************************************************
  * Funciones de mostrado
  ******************************************************************/
-
+/*Funcion que muestra la informacion de los clusters
+ * 
+ * @param array listaC lista de los clusteres obtenidos
+ * @param array cads array de las TElementos existentens
+ */
 function mostrar($listaC,$cads)
 {
 	
@@ -89,6 +100,15 @@ function mostrar($listaC,$cads)
  * Funciones de cargado de datos
  ******************************************************************/
 
+/*Funcion que carga los datos desde un fichero
+ * 
+ * @param string fich nombre del fichero del que se obtienen los datos
+ * @param array cads array de Telemento donde se almacenan las cadenas
+ * @param int n posision de la cadena en el csv original
+ * @param string email email del usuario
+ * @param float alpha valor alpha para calcular los emparejamientos
+ * @return TDistancias devuelve la matriz de las distancias entre las cadenas
+ */ 
 function leerCadenas($fich,&$cads,&$n,&$email,&$alpha) {
 	
 
@@ -147,6 +167,13 @@ function leerCadenas($fich,&$cads,&$n,&$email,&$alpha) {
 
 }
 
+/*Funcion que guarda las cadenas en el fichero borrando las cadenas de los emparejamientos
+ * y dejando solo la cadena centro de cada emparejamiento
+ * 
+ * @param file referencia con nombre al fichero que esta abierto
+ * @param array cads array de TElemento que contiene las cadenas
+ * @param array listaC array que contiene la lista de clusteres obtenidos
+ */
 function saveFichB($file,$cads,$listaC)
 {
 
@@ -172,6 +199,13 @@ function saveFichB($file,$cads,$listaC)
 	
 }
 
+/*Funcion que guarda las cadenas en el fichero manteniendo las cadenas de los emparejamientos
+ * y copiando al cadena centro a las demas cadenas del emparejamiento
+ * 
+ * @param file referencia con nombre al fichero que esta abierto
+ * @param array cads array de TElemento que contiene las cadenas
+ * @param array listaC array que contiene la lista de clusteres obtenidos
+ */
 function saveFichC($file,$cads,$listaC)
 {
 	$cadenas = $cads;
@@ -197,6 +231,11 @@ function saveFichC($file,$cads,$listaC)
 	
 }
 
+/*Funcion que guarda el fichero
+ * 
+ * @param file referencia con nombre al fichero que esta abierto
+ * @param array cadenas array de TElemento que contiene las cadenas
+ */
 function saveFich($file,$cadenas)
 {
 	usort($cadenas, "compareElemento");

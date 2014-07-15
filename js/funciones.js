@@ -1,4 +1,5 @@
 
+//Array de modificaciones guardadas
 var ArrayMod = [];
 
 
@@ -6,6 +7,11 @@ var ArrayMod = [];
  * Funciones para validar formularios
  ************************************************************************************************/
 
+/*Funcion que valida los campos del form del index
+ * 
+ * @param f referencia al objeto del formulario
+ * @return boolean devuelve si es valido o no el formulario 
+ */
 function validar(f)
 {
 	var valido = false;
@@ -45,6 +51,11 @@ function validar(f)
 	return valido;
 }
 
+/*Funcion que valida el campo del email
+ * 
+ * @param string em email a validar
+ * @return boolean devuelve si es valido o no el email
+ */
 function validarEmail(em)
 {
 	var expr = new RegExp("^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,3})");
@@ -67,6 +78,11 @@ function validarEmail(em)
 	
 }
 
+/*Funcion que valida el campo de posicion
+ * 
+ * @param string p posicion a validar
+ * @return boolean devuelve si es valido o no la posicion
+ */
 function validarPosicion(p)
 {
 	var valido = false;
@@ -74,7 +90,6 @@ function validarPosicion(p)
 	
 	if(!esEntero(p))
 	{
-		//Poner en el campo de error que tiene que ser un numero
 		document.getElementById("errorPosicion").innerHTML = "Tiene que ser un numero entero";
 	}
 	else 
@@ -86,6 +101,11 @@ function validarPosicion(p)
 	return valido;
 }
 
+/*Funcion que valida el campo de alpha
+ * 
+ * @param string a va.lor alpha a validar
+ * @return boolean devuelve si es valido o no el valor alpha
+ */
 function validarAlpha(a)
 {
 	var valido = false;
@@ -93,7 +113,6 @@ function validarAlpha(a)
 	
 	if(isNaN(num) || (num >1 || num<0))
 	{
-		//Poner en el campo de error que tiene que ser un numero
 		document.getElementById("errorAlpha").innerHTML = "Tiene que ser un numero decimal entre 0 y 1";
 
 	}
@@ -106,13 +125,17 @@ function validarAlpha(a)
 	return valido;
 }
 
+/*Funcion que valida el campo de abreviaturas
+ * 
+ * @param string a campo a validar
+ * @return boolean devuelve si es valido o no el campo de abreviaturas
+ */
 function validarAbreviaturas(a)
 {
 	var valido = false;
 	
 	if(estaVacio(a))
 	{
-		//Poner en el campo de error que tiene que ser un numero
 		document.getElementById("errorSiglas").innerHTML = "Las abreviaturas no pueden estar vacias";
 	}
 	else 
@@ -124,13 +147,17 @@ function validarAbreviaturas(a)
 	return valido;
 }
 
+/*Funcion que valida el campo de fichero
+ * 
+ * @param string a campo a validar
+ * @return boolean devuelve si es valido o no el campo de fichero
+ */
 function validarFichero(a)
 {
 	var valido = false;
 	
 	if(estaVacio(a))
 	{
-		//Poner en el campo de error que tiene que ser un numero
 		document.getElementById("errorFichero").innerHTML = "El fichero no puede estar vacio";
 	}
 	else 
@@ -146,9 +173,13 @@ function validarFichero(a)
  * Funciones para mostrar y modificar datos
  ************************************************************************************************/
 
+/*Funcion que muestra los datos de una cadena en el div de modificaciones
+ * 
+ * @param f referencia a la cadena del select
+ */
 function mostrarDatos(f)
 {
-	
+
 	document.getElementById("objMod").style.display="inline";
 	document.getElementById("errorCadMod").innerHTML = "";
 	
@@ -191,20 +222,38 @@ function mostrarDatos(f)
 	
 }
 
+/*Funcion que guarda las modificaciones en el array de modificaciones
+ * 
+ */
 function guardarMods()
 {
+	//Se obtiene la informacion a guardar
 	var cadena = document.getElementById("cadMod").value;
 	var cCads = document.getElementById("cCads");
 	var cluster = document.getElementById("cluster").value;
 	var indice = cCads.value;
+	var i = indiceMod(cluster,indice);
 	
+	var operacion  = -1;
 	
+	if(document.getElementById("qCad").checked)
+	{
+		operacion = 0;
+	}
+	
+	if(document.getElementById("bCad").checked)
+	{
+		operacion = 1;
+	}
+	
+	//Si la cadena esta vacia saldra un error
 	if(estaVacio(cadena))
 	{
 		document.getElementById("errorCadMod").innerHTML = "La cadena no puede estar vacia";
 	}
-	else if(indiceMod(cluster,indice)==-1)
+	else if(i==-1)
 	{
+		//Si no existe una modificacion previa de la cadena se guardara la modificacion
 		document.getElementById("errorCadMod").innerHTML = "";
 		var operacion  = -1;
 		var posicion =  document.getElementById("posicion").value;
@@ -230,9 +279,18 @@ function guardarMods()
 		document.getElementById("cCads").options[document.getElementById("cCads").selectedIndex].text = csv.join(";");
 		
 	}
+	else
+	{
+		//Si existiese una modificacion de esa cadena, semodificacian solo los dacots de la cadena y su oepracion a la mas reciente
+		ArrayMod[i].cadena = cadena;
+		ArrayMod[i].operacion = operacion;
+	}
 	
 }
 
+/*Funcion que guarda las modificaciones de la cadena centro
+ * 
+ */
 function guardarModCentro()
 {
 	var cadena = document.getElementById("centroC").value;
@@ -240,12 +298,14 @@ function guardarModCentro()
 	var indice = document.getElementById("indiceC").value;;
 	var i =indiceMod(cluster,indice);
 	
+	//Si la cadena esta vacia se generara un error
 	if(estaVacio(cadena))
 	{
 		document.getElementById("errorCentroC").innerHTML = "La cadena no puede estar vacia";
 	}
 	else if(i==-1)
 	{
+		//En caso de que no exista ninguna modificacion sobre esta cadena se crearauna modificacion nueva
 		document.getElementById("errorCentroC").innerHTML = "";
 		var operacion  = -1;
 		
@@ -270,6 +330,7 @@ function guardarModCentro()
 	}
 	else
 	{
+		//Si existe unamodificacion de esta cadena se modifica solo la cadena de texto
 		ArrayMod[i].cadena = cadena;
 	}
 }
@@ -280,8 +341,12 @@ function guardarModCentro()
  * Funciones para enviar datos a php
  ************************************************************************************************/
 
+/*Funcion que envia la informacion del form del index para poder calcular las tablas de distancias
+ * 
+ */
 function calcularTablas()
 {
+	//Se obtienen todos los datos a enviar
 	var xmlhttp;
 	var cad = "";
 	var file = document.getElementById("tFichero");
@@ -316,18 +381,25 @@ function calcularTablas()
 	  
 	xmlhttp.onreadystatechange=function(){};
 	
+	//Se hace visible el comentario de que se han enviado los datos al servidor
 	document.getElementById("msgEnviado").style.display="inline";
 	document.getElementById("formFichero").style.display="none";
 	
-	
+	//Se envia la informacion por Ajax
 	xmlhttp.open("POST","CalculaTablas.php",true);
 	xmlhttp.send(formData);
 	
 	
 }
 
+/*Funcion que envia y muestra lso datos de las cadenas de un emparejamiento
+ * El envio de datos y su posterior recepcion se hacen por Ajax
+ * 
+ * @param int num numero de emparejamiento
+ */
 function mostrarCadenas(num)
 {
+	//Se recogen los datos a enviar al servidor
 	var formData = new FormData();
 	formData.append("cluster", num);
 	var xmlhttp;
@@ -340,9 +412,11 @@ function mostrarCadenas(num)
 	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 	  }
 
+	//Se envian los datos por Ajax
 	xmlhttp.open("POST","datosCluster.php",true);
 	xmlhttp.send(formData);
 	
+	//Se recogen los datos de Ajax para poder escribir la informacion de las cadenas
 	xmlhttp.onreadystatechange=function()
 	{
 		if (xmlhttp.readyState==4 && xmlhttp.status==200)
@@ -399,6 +473,9 @@ function mostrarCadenas(num)
 	
 }
 
+/*Funcion que envia la peticion por Ajax para que se guarde el fichero
+ * 
+ */
 function guardarFichero()
 {
 	var xmlhttp;
@@ -446,7 +523,10 @@ function guardarFichero()
  * Funciones para controlar checks
  ************************************************************************************************/
 
-
+/*Funcion que controla el estado del check de abreviaturas
+ * 
+ * @param f referencia al objeto check
+ */
 function checkAbreviaturas(f)
 {
 	
@@ -462,6 +542,10 @@ function checkAbreviaturas(f)
 
 }
 
+/*Funcion que controla el estado del check del campo alpha
+ * 
+ * @param f referencia al objeto check
+ */
 function checkAlpha(f)
  {
  	if(f.checked)
@@ -480,6 +564,9 @@ function checkAlpha(f)
  * Clase de objetos a modificar
  ************************************************************************************************/
 
+/*
+ * Clase que guarda la informacion de las modificaciones
+ */
 var ObjModificado = function(cluster,indice,cadena,operacion)
 {
 	this.cluster = cluster;
@@ -493,7 +580,11 @@ var ObjModificado = function(cluster,indice,cadena,operacion)
  * Funciones auxiliares
  ************************************************************************************************/
 
-
+/*Funcion que determina si una cadena esta vacia o no
+ * 
+ * @param string n cadena a evaluar
+ * @return boolean devuelve true si la cadena esta vacia
+ */
 function estaVacio(n)
 {
 	var vacio = false;
@@ -504,6 +595,11 @@ function estaVacio(n)
 	return vacio;
 }
 
+/*Funcion que determina si un numero es entero o no
+ * 
+ * @param string x cadena a evaluar
+ * @return boolean devuelve true si la cadena esun numero entero
+ */
 function esEntero(x)
 {
 	var y = parseInt(x);
@@ -512,6 +608,12 @@ function esEntero(x)
 	return x == y && x.toString() == y.toString();
 }
 
+/*Funcion que devuelve un indice del array de modificaciones
+ * 
+ * @param int cluster emparejamiento donde se encuentra la cadena
+ * @param int indice indice de la cadena
+ * @return int devuelve -1 si no esta en las modificaciones y su indice en caso contrario
+ */
 function indiceMod(cluster,indice)
 {
 	ind = -1;

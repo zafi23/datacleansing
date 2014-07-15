@@ -5,7 +5,12 @@
  ******************************************************************/   
     
     
-//Funcion que devuelve el procentaje de aprecido entre dos strings 
+/* Funcion que devuelve el procentaje de aprecido entre dos strings 
+ * 
+ * @param string c1 cadena 1 a evaluar
+ * @param string c2 cadena 2 a evaluar
+ * @return float porcentaje de similitud entre la cadena 1 y la cadena 2
+ */
 function similarTxt($c1,$c2)
 {
 	similar_text($c1, $c2,$percent);
@@ -14,13 +19,25 @@ function similarTxt($c1,$c2)
 }
 
 
-//Funcion que devuelve la distancia de levenshtein entre dos cadenas soundex
+
+/* Funcion que devuelve la distancia de levenshtein entre dos cadenas soundex
+ * 
+ * @param string c1 cadena 1 a evaluar
+ * @param string c2 cadena 2 a evaluar
+ * @return float distancia entre la cadena 1 y la cadena 2
+ */
 function soundLev($c1,$c2)
 {
 	return levenshtein(soundex($c1),soundex($c2));
 }
 
-//Funcion que devuelve el porcentaje de similitud entre dos cadenas soundex
+
+/* Funcion que devuelve el porcentaje de similitud entre dos cadenas soundex
+ * 
+ * @param string c1 cadena 1 a evaluar
+ * @param string c2 cadena 2 a evaluar
+ * @return float porcentaje de similitud entre las cadenas c1 y c2
+ */
 function soundSim($c1,$c2)
 {
 	
@@ -30,13 +47,25 @@ function soundSim($c1,$c2)
 	
 }
 
-//Funcion que devuelve la distancia de levenshtein entre dos cadenas metaphone
+
+/* Funcion que devuelve la distancia de levenshtein entre dos cadenas metaphone
+ * 
+ * @param string c1 cadena 1 a evaluar
+ * @param string c2 cadena 2 a evaluar
+ * @return float porcentaje de similitud entre las cadenas c1 y c2
+ */
 function metaLev($c1,$c2)
 {
 	return levenshtein(metaphone($c1),metaphone($c2));
 }
 
-//Funcion que devuelve el porcentaje de similitud entre dos cadenas metaphone
+
+/* Funcion que devuelve el porcentaje de similitud entre dos cadenas metaphone
+ * 
+ * @param string c1 cadena 1 a evaluar
+ * @param string c2 cadena 2 a evaluar
+ * @return float porcentaje de similitud entre las cadenas c1 y c2
+ */
 function metaSim($c1,$c2)
 {
 	similar_text(metaphone($c1),metaphone($c2),$percent);
@@ -47,8 +76,10 @@ function metaSim($c1,$c2)
 
 /*Funcion que calcula la distancia invariante transposicional a partir
  *  de los vectores de frecuencias de dos cadenas
- *  v: vector de frecuencias
- *  w: vector de frecuencias
+ * 
+ * @param array v vector de frecuencias
+ * @param array w vector de frecuencias
+ * @return int distancia invariante transposicional de los vectores de frecuencias
  */
  function distanceDIT($v,$w)
  {
@@ -71,8 +102,10 @@ function metaSim($c1,$c2)
  
  /*Funcion que calcula la distancia invariante a la posicion
    de una palabra en una cadena
- *  v: vector de palabras de la cadena
- *  w: vector de palabras de la cadena
+ * 
+ * @param array v vector de palabras de la cadena
+ * @param array w vector de palabras de la cadena
+ * @return int distancia invariante a la posicion
  */
  function distanceDIP($v,$w)
  {
@@ -129,9 +162,11 @@ function metaSim($c1,$c2)
  
   /*Funcion que calcula la distancia invariante a la posicion
    de una palabra en una cadena empleando el coeficiente de jaccard
- *  v: vector de palabras de la cadena
- *  w: vector de palabras de la cadena
- *	jaccard: coeficiente de Jaccard empleado en la funcion 
+ * 
+ * @param array v vector de palabras de la cadena
+ * @param array w vector de palabras de la cadena
+ * @param float	jaccard coeficiente de Jaccard empleado en la funcion
+ * @return int distancia invariante a la posicion empleando el coficiente de jaccard
  */
  function distanceDIP2($v,$w,&$jaccard)
  {
@@ -238,9 +273,18 @@ function metaSim($c1,$c2)
  }
  
  
- /* Realiza el emparejamiento por backtracking (ramificacion y poda)
+ 
+ /*Realiza el emparejamiento por backtracking (ramificacion y poda)
    Se pasa el costeActual y el costeMejor para realizar podas que
-   incrementan la velocidad de ejecucion */
+   incrementan la velocidad de ejecucion
+ * 
+ * @param array matriz matriz que indica si las cadenas se han emparejado o no
+ * @param int lV longitud del array V
+ * @param int lW longitud del array W
+ * @param int nivel nivel donde se encuentra la recursion, enun principio es 0
+ * @param int costeActual coste actual de la distancia entre las dos cadenas
+ * @param int costeMejor coste mejor de la distancia entre las cadenas
+ */
 function emparejamiento($matriz , $lV,$lW,$nivel,$costeActual,&$costeMejor)
 {
 	
@@ -316,7 +360,12 @@ function emparejamiento($matriz , $lV,$lW,$nivel,$costeActual,&$costeMejor)
  ******************************************************************/
  
  
-//Funcion que preprocesa las cadenas
+
+  /*Funcion que preprocesa las cadenas
+ * 
+ * @param array cadenasOri vector de cadenas sin procesar
+ * @return array cadenas procesadas
+ */
 function preprocess($cadenasOri)
 {
 	
@@ -337,7 +386,12 @@ function preprocess($cadenasOri)
 	
 }
 
-//Obtenemos las cadenas de un fichero de texto
+
+  /*Funcion que obtiene las cadenas del fichero
+ * 
+ * @param string fichero nombre del fichero del que se obtienen las cadenas
+ * @return array cadenas del fichero
+ */
 function leerFich($fichero)
 {
 	$cads = array();
